@@ -66,7 +66,3 @@ The extracted PDF text is sent to the LLM with a prompt instructing it to return
 - [ ] Multi-currency support
 - [ ] Export estimate as PDF/Excel
 - [ ] Slack/email notification when an estimate finishes processing
-
-## License
-
-MIT
