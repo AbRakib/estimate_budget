@@ -51,14 +51,16 @@ class ProjectController extends Controller
         $project = DB::transaction(function () use ($request) {
             $path = $request->file('requirements_pdf')->store('project-requirements');
 
-            return Project::create([
-                'user_id' => $request->user()->id,
-                'title' => $request->validated('title'),
-                'file_path' => $path,
-                'status' => 'pending',
-                'hourly_rate' => $request->validated('hourly_rate') ?: config('estimator.default_hourly_rate'),
-                'country' => $request->validated('country'),
-            ]);
+            $project = new Project;
+            $project->user_id = $request->user()->id;
+            $project->title = $request->validated('title');
+            $project->file_path = $path;
+            $project->status = 'pending';
+            $project->hourly_rate = $request->validated('hourly_rate') ?: config('estimator.default_hourly_rate');
+            $project->country = $request->validated('country');
+            $project->save();
+
+            return $project;
         });
 
         ProcessProjectEstimate::dispatch($project->id);
